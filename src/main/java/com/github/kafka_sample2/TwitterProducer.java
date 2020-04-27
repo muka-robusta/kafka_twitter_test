@@ -150,6 +150,14 @@ public class TwitterProducer {
         kafkaProperties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         kafkaProperties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         
+        // create SAFE Producer
+        kafkaProperties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        kafkaProperties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+        kafkaProperties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+        kafkaProperties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+        
+        
+        
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProperties);
         return producer;
     }
